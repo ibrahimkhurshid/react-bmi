@@ -1,0 +1,22 @@
+
+.calculate-btn{
+    display: block  ;
+    margin: 0 auto;
+    background-color: #3e4eb8;
+    border-radius: 25px 25px;
+    width: 15%;
+    padding: 10px;
+    color: #f7f9fb;
+    border-style: none;
+    box-shadow: #5E5DF0 0 10px 20px -10px;
+    margin-bottom: 10px;
+    height: 40px;
+    white-space: normal;
+    min-width: 100px;
+}
+.calculate-btn:hover{
+    border: 1px solid #162a4d;
+}
+.calculate-btn:active{
+    border:3px solid #162a4d;
+}

@@ -1,0 +1,16 @@
+.bmi-inputs{
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 1%;
+}
+
+.bmi-inputs label{
+    display: block;
+    width: 100%;
+    color: #f7f9fb;
+    font-size: 75%;
+}
+.bmi-inputs input{
+    display: block;
+    width: 100%;
+}

@@ -1,86 +1,75 @@
 import React from "react";
-import { Bar } from "react-chartjs-2";
+import AreaChart from "./AreaChart";
+import Button from "./Button/Button";
+import BmiInputs from "./BmiInputs/BmiInputs";
+import TextDisplay from "./TextDisplay/TextDisplay";
+import "./Bmi.css";
 
-import './Bmi.css'
 
-const data= {
-  labels:[
-      "Red", "Blue", "Yellow"
-  ]
-}
-
-class Bmi extends React.Component{
-  constructor(props){
+class Bmi extends React.Component {
+  constructor(props) {
     super(props);
-    this.state={
-      bodyMassIndex:0
-    }
-    this.height = 0;
-    this.weight = 0;
-  }
-  setHeight = (event)=>{
-    this.height = event.target.value;
-    console.log(`Height: ${event.target.value}`)
-  }
-  setWeight = (event)=>{
-    this.weight = event.target.value;
-    console.log(`Weight: ${event.target.value}`)
+    this.state = {
+      bodyMassIndex: 0,
+      height: 0,
+      weight: 0,
+    };
   }
 
 
-  // ---------BMI = kg/m2------
-  calculateBmi = (event)=>{
-    if (this.weight==0 || this.height==0){
-      alert('Values can\'t be zero')
+  setInputVal = (e)=>{
+    if(e.target.name=='height'){
+      this.setState({height:e.target.value})
     }
-    else{
-      let bmi = this.weight/((this.height/100)**2)
-      this.setState({bodyMassIndex:bmi})
+    else if(e.target.name=='weight'){
+      this.setState({weight:e.target.value})
     }
   }
 
-  
-  render(){
-      return(
-          // This div contains the whole BMI component
-          <div className="container">
-            <div className="app-name">
-              <h1>BMI Tracker</h1>
-            </div>
-            <div className="bmi-inputs">
-              
-              <div className="left-input">
-                <label>Weight (in Kg)</label>
-                <input onChange={this.setWeight} type={'number'} placeholder={'50'}></input>
-              </div>
-              <div className="right-input">
-                <label>Height (in cm)</label>
-                <input onChange={this.setHeight} type={'number'} placeholder={'176'}></input>
-              </div>
 
-            </div>
+  calculateBmi = () => {
+    const { weight, height } = this.state;
+    if (weight == 0 || height == 0) {
+      alert("Values can't be zero");
+    } else {
+      let bmi = weight / (height / 100) ** 2;
+      this.setState({ bodyMassIndex: bmi });
+    }
+  };
 
-            {/* This button submits the inputs */}
-            <button onClick={this.calculateBmi} className="calculate-btn">Calculate BMI</button>
-            
-            {/* This button submits the inputs */}
-            <div className={'bmi-result'}>
-              <h1>{`${this.state.bodyMassIndex.toPrecision(4)}`} <small>Kg/m<sup>2</sup></small></h1>
-            </div>
+  render(props) {
+    const{appName,styleClass}=this.props;
+    return (
+      <div className={styleClass}>
 
-            {/* This div is for react-charts */}
-            <div className="chart">
-              {/* <Bar
-                
-                height={100}
-                width={200}
-                options={{
-                  maintainAspectRatio: false
-                }}
-              /> */}
-            </div>
-          </div>
-      );
+        <TextDisplay 
+        textValue={appName} 
+        styleClass="app-name"
+        />
+
+        <BmiInputs styleClass="bmi-inputs" onValChange={this.setInputVal}/>
+
+        <Button
+        buttonText="Calculate BMI"
+        styleClass="calculate-btn"
+        onClick={this.calculateBmi}
+        />
+        
+        <TextDisplay textValue={
+        <>{this.state.bodyMassIndex.toFixed(3)}
+        <small>Kg/m<sup>2</sup></small></>
+        } 
+        styleClass="bmi-result"
+        />
+
+        <div className="chart-container">
+          <AreaChart 
+          labelsVal = {["January","February","March","April"]}
+          dataVal = {[15,16,18,this.state.bodyMassIndex]}
+          />
+        </div>
+      </div>
+    );
   }
 }
 
